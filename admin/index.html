@@ -6,17 +6,49 @@
     <title>Content Manager</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        padding: 20px;
+      }
+      #nc-root {
+        display: none;
+      }
+      .loading {
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
   </head>
   <body>
+    <div class="loading">Loading Netlify CMS...</div>
     <script>
+      console.log("Initializing Netlify CMS...");
+
       if (window.netlifyIdentity) {
+        console.log("Netlify Identity found");
         window.netlifyIdentity.on("init", (user) => {
+          console.log("Identity initialized", user);
           if (!user) {
             window.netlifyIdentity.on("login", () => {
+              console.log("User logged in");
               document.location.href = "/admin/";
             });
           }
         });
+      } else {
+        console.error("Netlify Identity not found");
+      }
+
+      // Initialize CMS
+      if (window.CMS) {
+        console.log("CMS found, initializing...");
+        window.CMS.init();
+        document.querySelector(".loading").style.display = "none";
+        document.querySelector("#nc-root").style.display = "block";
+      } else {
+        console.error("CMS not found");
       }
     </script>
   </body>
