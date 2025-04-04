@@ -119,6 +119,15 @@
           console.error("CMS initialization error:", error);
         }
       });
+
+      // Initialize CMS
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.CMS) {
+          window.CMS.init();
+        } else {
+          console.error("CMS not found");
+        }
+      });
     </script>
   </body>
 </html>
